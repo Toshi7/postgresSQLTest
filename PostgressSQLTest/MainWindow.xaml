@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PostgressSQLTest"
         Title="ListViewGridViewSample" Height="200" Width="400">
     <Grid>
-        <ListView Margin="10" Name="lvUsers">
+        <ListView Margin="10,10,10,60" Name="lvUsers">
             <ListView.View>
                 <GridView>
                     <!--<GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" /> -->
