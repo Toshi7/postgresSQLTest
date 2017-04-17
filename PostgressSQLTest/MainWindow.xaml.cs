@@ -136,6 +136,25 @@ namespace PostgressSQLTest
             }
         }
 
+
+        //Clear all records from controls
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ClearAll();
+        }
+
+        private void ClearAll()
+        {
+            txtEmpId.Text = "";
+            txtEmpName.Text = "";
+            ddlGender.SelectedIndex = 0;
+            txtContact.Text = "";
+            txtAddress.Text = "";
+            btnAdd.Content = "Add";
+            txtEmpId.IsEnabled = true;
+        }
+
+
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             if (lvUsers.SelectedItems.Count > 0)
@@ -152,7 +171,7 @@ namespace PostgressSQLTest
                 //selectedId = (selectedItem.SubItems[0]);
 
 
-                cmd.CommandText = "delete from simple_table where id=" + lvUsers.Items[0];
+                cmd.CommandText = "delete from simple_table where id=" + itemx;
 
                 cmd.ExecuteNonQuery();
                 BindGrid();

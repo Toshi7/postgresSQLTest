@@ -23,9 +23,10 @@
             <ListView.View>
                 <GridView>
                     <!--<GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" /> -->
-                    <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding id}" />
+                    <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding id}"/>
                     <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding tekst}" />
                     <GridViewColumn Header="Gender" Width="150" DisplayMemberBinding="{Binding gender}" />
+                    
                 </GridView>
             </ListView.View>
         </ListView>
@@ -49,6 +50,7 @@
                         <ComboBoxItem Content="Female" />
                     </ComboBox>
                 </WrapPanel>
+                
                 <WrapPanel>
                     <TextBlock Text="Contact : "/>
                     <TextBox Name="txtContact" />
@@ -63,6 +65,7 @@
                     <Button Name="btnAdd" Content="Add" FontSize="25" Width="120" Margin="5" Click="btnAdd_Click" />
                     <Button Name="btnEdit" Content="Edit" FontSize="25" Width="120" Margin="5" Click="btnEdit_Click" />
                     <Button Name="btnDelete" Content="Delete" FontSize="25" Width="120" Margin="5" Click="btnDelete_Click" />
+                    <Button Name="btnCancel" Content="Clear" FontSize="25" Width="120" Margin="5" Click="btnCancel_Click" />
                 </WrapPanel>
 
 
