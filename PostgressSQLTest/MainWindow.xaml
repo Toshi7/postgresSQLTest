@@ -68,6 +68,7 @@
                     <Button Name="btnEdit" Content="Edit" FontSize="25" Width="120" Margin="5" Click="btnEdit_Click" />
                     <Button Name="btnDelete" Content="Delete" FontSize="25" Width="120" Margin="5" Click="btnDelete_Click" />
                     <Button Name="btnCancel" Content="Clear" FontSize="25" Width="120" Margin="5" Click="btnCancel_Click" />
+                    <Button Name="btnExit" Content="Exit" FontSize="25" Width="120" Margin="5" Background="#400000" Foreground="Bisque" Click="btnExit_Click" />
                 </WrapPanel>
 
 

@@ -242,6 +242,14 @@ namespace PostgressSQLTest
         {
 
         }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            //Exit
+           
+                Application.Current.Shutdown();
+           
+        }
     }
     
 }
