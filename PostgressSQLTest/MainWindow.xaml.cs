@@ -35,6 +35,7 @@ namespace PostgressSQLTest
             conn.Open();
 
 
+
             // Define a query
             cmd = new NpgsqlCommand("SELECT * FROM simple_table", conn);
 
@@ -46,7 +47,7 @@ namespace PostgressSQLTest
             while (dr.Read())
                //    items.Add(new User() { id = (int)dr[0], tekst = (String)(dr[1])});
 
-                   items.Add(new User() { id = Convert.ToInt32(dr[0]), tekst = Convert.ToString(dr[1]),
+                   items.Add(new User() { id = Convert.ToInt32(dr[0]), name = Convert.ToString(dr[1]),
                    gender = Convert.ToString(dr[2])
                    });
                     // Read all rows and output the first column in each row
@@ -64,7 +65,7 @@ namespace PostgressSQLTest
         {
             public int id { get; set; }
 
-            public String tekst { get; set; }
+            public String name { get; set; }
 
             public string gender { get; set; }
 
@@ -113,7 +114,7 @@ namespace PostgressSQLTest
                        cmd.ExecuteNonQuery();
                         BindGrid();
                         MessageBox.Show("Employee Added Successfully...");
-                        //ClearAll();
+                        ClearAll();
 
                     }
                     else
@@ -160,7 +161,7 @@ namespace PostgressSQLTest
             if (lvUsers.SelectedItems.Count > 0)
             {
                 //                DataRowView row = (DataRowView)lvUsers.SelectedItems[0];
-                ListViewItem itemx = (ListViewItem)lvUsers.SelectedItems[0];
+//                ListViewItem itemx = (ListViewItem)lvUsers.SelectedItems[0];
 
                 NpgsqlCommand cmd = new NpgsqlCommand();
                 conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;Database=test;User Id=postgres;" + "Password=admin;");
@@ -170,9 +171,19 @@ namespace PostgressSQLTest
                 //ListViewItem selectedItem = (ListViewItem)sender;
                 //selectedId = (selectedItem.SubItems[0]);
 
+                //                var a = lvUsers.SelectedIndex + 1;
+                //                string myString = a.ToString();
 
-                cmd.CommandText = "delete from simple_table where id=" + itemx;
+                //                string myString = lvUsers.SelectedItems[0].ToString();
+                //                MessageBox.Show(myString);
 
+                var selectedStockObject = lvUsers.SelectedItems[0] as User;
+                if (selectedStockObject == null)
+                {
+                    return;
+                }
+
+                cmd.CommandText = "delete from simple_table where id=" + selectedStockObject.id;
                 cmd.ExecuteNonQuery();
                 BindGrid();
                 MessageBox.Show("Employee Deleted Successfully...");
