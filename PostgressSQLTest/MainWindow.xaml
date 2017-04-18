@@ -26,7 +26,9 @@
                     <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding id}"/>
                     <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding name}" />
                     <GridViewColumn Header="Gender" Width="150" DisplayMemberBinding="{Binding gender}" />
-                    
+                    <GridViewColumn Header="Contact" Width="150" DisplayMemberBinding="{Binding contact}" />
+                    <GridViewColumn Header="Address" Width="150" DisplayMemberBinding="{Binding address}" />
+
                 </GridView>
             </ListView.View>
         </ListView>
@@ -70,10 +72,7 @@
 
 
 
-                <Label Content="No records found." Name="lblCount" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="#FFE10000"></Label>
-                <WrapPanel Margin="20" HorizontalAlignment="Center">
-                    <DataGrid AutoGenerateColumns="True" Name="gvData" SelectionMode="Single" FontSize="15" Padding="5" Background="Black" />
-                </WrapPanel>
+                
 
 
             </StackPanel>

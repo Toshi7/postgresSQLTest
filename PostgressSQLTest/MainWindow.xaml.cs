@@ -48,7 +48,7 @@ namespace PostgressSQLTest
                //    items.Add(new User() { id = (int)dr[0], tekst = (String)(dr[1])});
 
                    items.Add(new User() { id = Convert.ToInt32(dr[0]), name = Convert.ToString(dr[1]),
-                   gender = Convert.ToString(dr[2])
+                   gender = Convert.ToString(dr[2]), contact = Convert.ToString(dr[3]), address = Convert.ToString(dr[4])
                    });
                     // Read all rows and output the first column in each row
             //                                Console.Write("{0}\n", dr[0]);
@@ -68,6 +68,8 @@ namespace PostgressSQLTest
             public String name { get; set; }
 
             public string gender { get; set; }
+            public String contact { get; set; }
+            public String address { get; set; }
 
         }
 
@@ -110,7 +112,7 @@ namespace PostgressSQLTest
                 {
                     if (ddlGender.Text != "Select Gender")
                     {
-                        cmd.CommandText = "insert into simple_table(id,name,gender) Values(" + txtEmpId.Text + ",'" + txtEmpName.Text + "','" + ddlGender.Text + "')";
+                        cmd.CommandText = "insert into simple_table(id,name,gender,contact,address) Values(" + txtEmpId.Text + ",'" + txtEmpName.Text + "','" + ddlGender.Text + "','" + txtContact.Text + "','" + txtAddress.Text + "')";
                        cmd.ExecuteNonQuery();
                         BindGrid();
                         MessageBox.Show("Employee Added Successfully...");
@@ -124,7 +126,15 @@ namespace PostgressSQLTest
                 }
                 else
                 {
-                    cmd.CommandText = "update tbEmp set EmpName='" + txtEmpName.Text + "',Gender='" + ddlGender.Text + "',Contact=" + txtContact.Text + ",Address='" + txtAddress.Text + "' where EmpId=" + txtEmpId.Text;
+                    //to find the ID user click
+                    var selectedStockObject = lvUsers.SelectedItems[0] as User;
+                    if (selectedStockObject == null)
+                    {
+                        return;
+                    }
+
+//                    MessageBox.Show("update simple_table set name='" + txtEmpName.Text + "',gender = '" + ddlGender.Text + "',contact= '" + txtContact.Text + "',address= '" + txtAddress.Text + "'where id= " + txtEmpId.Text);
+                    cmd.CommandText = "update simple_table set name='" + txtEmpName.Text + "',gender = '" + ddlGender.Text + "',contact= '" + txtContact.Text + "',address= '" + txtAddress.Text + "'where id= " + txtEmpId.Text;
                     cmd.ExecuteNonQuery();
                     BindGrid();
                     MessageBox.Show("Employee Details Updated Succesffully...");
@@ -177,6 +187,7 @@ namespace PostgressSQLTest
                 //                string myString = lvUsers.SelectedItems[0].ToString();
                 //                MessageBox.Show(myString);
 
+                //to find the ID user click
                 var selectedStockObject = lvUsers.SelectedItems[0] as User;
                 if (selectedStockObject == null)
                 {
@@ -196,7 +207,35 @@ namespace PostgressSQLTest
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
+            if (lvUsers.SelectedItems.Count > 0)
+            {
+                var selectedStockObject = lvUsers.SelectedItems[0] as User;
+                if (selectedStockObject == null)
+                {
+                    return;
+                }
 
+                
+                
+                BindGrid();
+
+                //                DataRowView row = (DataRowView)lvUsers.SelectedItems[0];
+                 //int anInteger;
+                 //anInteger = Convert.ToInt32(txtEmpId.Text);
+                 // anInteger = int.Parse(txtEmpId.Text);
+
+                txtEmpId.Text = selectedStockObject.id.ToString();
+                txtEmpName.Text = selectedStockObject.name;
+                ddlGender.Text = selectedStockObject.gender;
+                txtContact.Text = selectedStockObject.contact;
+                txtAddress.Text = selectedStockObject.address;
+                txtEmpId.IsEnabled = false;
+                btnAdd.Content = "Update";
+            }
+            else
+            {
+                MessageBox.Show("Please Select Any Employee From List...");
+            }
         }
 
         private void lvUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
