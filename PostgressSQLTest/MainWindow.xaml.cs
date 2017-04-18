@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Npgsql;
 using System.Data;
+using System.Data.OleDb;
 
 namespace PostgressSQLTest
 {
@@ -39,25 +40,9 @@ namespace PostgressSQLTest
             // Define a query
             cmd = new NpgsqlCommand("SELECT * FROM simple_table", conn);
 
-
+            BindGrid();
             // Execute a query
-            NpgsqlDataReader dr = cmd.ExecuteReader();
-            List<User> items = new List<User>();
 
-            while (dr.Read())
-               //    items.Add(new User() { id = (int)dr[0], tekst = (String)(dr[1])});
-
-                   items.Add(new User() { id = Convert.ToInt32(dr[0]), name = Convert.ToString(dr[1]),
-                   gender = Convert.ToString(dr[2]), contact = Convert.ToString(dr[3]), address = Convert.ToString(dr[4])
-                   });
-                    // Read all rows and output the first column in each row
-            //                                Console.Write("{0}\n", dr[0]);
-            //            Console.ReadLine();
-
-
-            lvUsers.ItemsSource = items;
-            // Close connection
-            conn.Close();
 
         }
 
@@ -79,14 +64,52 @@ namespace PostgressSQLTest
             NpgsqlConnection conn;
             NpgsqlCommand cmd;
             
-            //if (con.State != ConnectionState.Open)
+            //if (conn != ConnectionState.Open)
             conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;Database=test;User Id=postgres;" + "Password=admin;");
             conn.Open();
-
             cmd = new NpgsqlCommand("SELECT name FROM simple_table", conn);
+            cmd.Connection = conn;
+            cmd.CommandText = "SELECT* FROM simple_table";
+           // OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            //da.Fill(dt);
+
+
             // Execute the query and obtain a result set
             NpgsqlDataReader dr = cmd.ExecuteReader();
-            /*if (dr.HasRows)
+
+            List<User> items = new List<User>();
+            //int count = 0;
+            while (dr.Read())
+                //    items.Add(new User() { id = (int)dr[0], tekst = (String)(dr[1])});
+
+                items.Add(new User()
+                {
+                    id = Convert.ToInt32(dr[0]),
+                    name = Convert.ToString(dr[1]),
+                    gender = Convert.ToString(dr[2]),
+                    contact = Convert.ToString(dr[3]),
+                    address = Convert.ToString(dr[4])
+                });
+            // Read all rows and output the first column in each row
+            //                                Console.Write("{0}\n", dr[0]);
+            //            Console.ReadLine();
+            gvData.ItemsSource = items;
+
+            /*
+            while (dr.Read())
+            {
+                count++;
+            }
+            
+            // Close connection
+            //conn.Close();
+
+
+
+
+            
+            if (count > 0)
             {
                 lblCount.Visibility = System.Windows.Visibility.Hidden;
                 gvData.Visibility = System.Windows.Visibility.Visible;
@@ -96,8 +119,8 @@ namespace PostgressSQLTest
             {
                 lblCount.Visibility = System.Windows.Visibility.Visible;
                 gvData.Visibility = System.Windows.Visibility.Hidden;
-            }*/
-
+            }
+            */
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -126,12 +149,7 @@ namespace PostgressSQLTest
                 }
                 else
                 {
-                    //to find the ID user click
-                    var selectedStockObject = lvUsers.SelectedItems[0] as User;
-                    if (selectedStockObject == null)
-                    {
-                        return;
-                    }
+                    
 
 //                    MessageBox.Show("update simple_table set name='" + txtEmpName.Text + "',gender = '" + ddlGender.Text + "',contact= '" + txtContact.Text + "',address= '" + txtAddress.Text + "'where id= " + txtEmpId.Text);
                     cmd.CommandText = "update simple_table set name='" + txtEmpName.Text + "',gender = '" + ddlGender.Text + "',contact= '" + txtContact.Text + "',address= '" + txtAddress.Text + "'where id= " + txtEmpId.Text;
@@ -168,7 +186,7 @@ namespace PostgressSQLTest
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (lvUsers.SelectedItems.Count > 0)
+            if (gvData.SelectedItems.Count > 0)
             {
                 //                DataRowView row = (DataRowView)lvUsers.SelectedItems[0];
 //                ListViewItem itemx = (ListViewItem)lvUsers.SelectedItems[0];
@@ -187,14 +205,29 @@ namespace PostgressSQLTest
                 //                string myString = lvUsers.SelectedItems[0].ToString();
                 //                MessageBox.Show(myString);
 
+                /*
                 //to find the ID user click
                 var selectedStockObject = lvUsers.SelectedItems[0] as User;
                 if (selectedStockObject == null)
                 {
                     return;
                 }
-
+                */
+                /*
                 cmd.CommandText = "delete from simple_table where id=" + selectedStockObject.id;
+                */
+
+                //DataRowView row = (DataRowView)gvData.SelectedItems[0];
+                //to find the ID user click
+                var selectedStockObject = gvData.SelectedItems[0] as User;
+                if (selectedStockObject == null)
+                {
+                    return;
+                }
+                
+                
+                cmd.CommandText = "delete from simple_table where id=" + selectedStockObject.id;
+ //               cmd.CommandText = "delete from simple_table where id=" + row["EmpId"].ToString();
                 cmd.ExecuteNonQuery();
                 BindGrid();
                 MessageBox.Show("Employee Deleted Successfully...");
@@ -207,9 +240,9 @@ namespace PostgressSQLTest
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (lvUsers.SelectedItems.Count > 0)
+            if (gvData.SelectedItems.Count > 0)
             {
-                var selectedStockObject = lvUsers.SelectedItems[0] as User;
+                var selectedStockObject = gvData.SelectedItems[0] as User;
                 if (selectedStockObject == null)
                 {
                     return;
@@ -238,10 +271,7 @@ namespace PostgressSQLTest
             }
         }
 
-        private void lvUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
@@ -249,6 +279,11 @@ namespace PostgressSQLTest
            
                 Application.Current.Shutdown();
            
+        }
+
+        private void gvData_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
     

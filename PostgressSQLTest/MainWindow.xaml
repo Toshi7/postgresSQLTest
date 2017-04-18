@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PostgressSQLTest"
-        Title="ListViewGridViewSample" Height="600" Width="1000">
+        Title="ListViewGridViewSample" Height="700" Width="1100">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"/>
@@ -19,19 +19,7 @@
     </Window.Resources>
 
     <Grid>
-        <ListView Margin="10,394,10,10" Name="lvUsers" SelectionChanged="lvUsers_SelectionChanged">
-            <ListView.View>
-                <GridView>
-                    <!--<GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" /> -->
-                    <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding id}"/>
-                    <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding name}" />
-                    <GridViewColumn Header="Gender" Width="150" DisplayMemberBinding="{Binding gender}" />
-                    <GridViewColumn Header="Contact" Width="150" DisplayMemberBinding="{Binding contact}" />
-                    <GridViewColumn Header="Address" Width="150" DisplayMemberBinding="{Binding address}" />
-
-                </GridView>
-            </ListView.View>
-        </ListView>
+        
 
         <DockPanel Name="dockMain" VerticalAlignment="top" HorizontalAlignment="Center" LastChildFill="False">
             <StackPanel>
@@ -72,8 +60,11 @@
                 </WrapPanel>
 
 
+                <Label Content="No records found." Name="lblCount" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="#FFE10000"></Label>
+                <WrapPanel Margin="20" HorizontalAlignment="Center">
+                    <DataGrid AutoGenerateColumns="True" x:Name="gvData" SelectionMode="Single" FontSize="15" Padding="5" Background="Black" Height="180" Width="627" RenderTransformOrigin="0.511,-0.095" />
+                </WrapPanel>
 
-                
 
 
             </StackPanel>
